@@ -21,7 +21,7 @@ Some content, more in the \hyperref[sec:one]{first section}
 \clearpage
 \section{Third section}\label{sec:three}
 Referred to by the footnote.
-\STOP
+
+\clearpage
+\END
 \end{document} 
-\begin{document}
-\end{document}

@@ -11921,13 +11921,6 @@ Completed box being shipped out [3]
 .....\glue 0.0 plus 1.0fil
 ...\pdflinkstate 0
 .\kern0.0
-! Undefined control sequence.
-l. ...\STOP
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
 Completed box being shipped out [4]
 \vbox(633.0+0.0)x407.0, direction TLT
 .\hbox(0.0+0.0)x0.0, direction TLT
@@ -12059,7 +12052,3 @@ Completed box being shipped out [4]
 .....\glue 0.0 plus 1.0fil
 ...\pdflinkstate 0
 .\kern0.0
-.\kern-633.0
-.\hbox(0.0+0.0)x0.0, direction TLT
-.\kern633.0
-(complicated.aux)

@@ -20,6 +20,7 @@ local function start_level(linkstacks, linkstate, level, head)
       new_head = node.insert_before(new_head, head, start_link)
       properties[start_link] = {linksplit__artificial = true}
       link.node, link.initial = start_link, false
+      start_link.objnum = pdf.reserveobj'annot'
     end
   end
   return new_head
