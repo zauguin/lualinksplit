@@ -1,0 +1,9 @@
+\ProvidesExplPackage{lualinksplit}{2025-06-13}{v0.1}{Split links into individual annotations}
+\lua_load_module:n{lualinksplit}
+
+\cs_set_protected:Npn \__pdfannot_backend_link_on: {
+  \pdflinkstate 0 \scan_stop:
+}
+\cs_set_protected:Npn \__pdfannot_backend_link_off: {
+  \pdflinkstate 1 \scan_stop:
+}
