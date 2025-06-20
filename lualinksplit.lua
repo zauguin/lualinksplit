@@ -13,6 +13,21 @@ local hlist, vlist, whatsit = node.id'hlist', node.id'vlist', node.id'whatsit'
 local pdf_start_link, pdf_end_link, pdf_link_state, user_defined = node.subtype'pdf_start_link', node.subtype'pdf_end_link', node.subtype'pdf_link_state', node.subtype'user_defined'
 local pdf_link_adjust_level = luatexbase.new_whatsit'pdf_link_adjust_level'
 
+local get_link_state_value, set_link_state_value do
+  local pdf_refobj = node.subtype'pdf_refobj'
+  function get_link_state_value(n)
+    n.subtype = pdf_refobj
+    local value = n.objnum
+    n.subtype = pdf_link_state
+    return value
+  end
+  function set_link_state_value(n, value)
+    n.subtype = pdf_refobj
+    n.objnum = value
+    n.subtype = pdf_link_state
+  end
+end
+
 local vmode do
   local modevalues = tex.getmodevalues()
   for k, v in pairs(modevalues) do
@@ -161,11 +176,8 @@ function process_vlist(head, level, linkstacks, linkstate)
       n.list = process_hlist(n.list, level, linkstacks, linkstate, n)
     elseif id == whatsit then
       if sub == pdf_link_state then
-        local props = properties[n]
-        local value = props and props.value
-        if value == nil then
-          texio.write_nl('WARNING: Manually created linkstate ignored')
-        elseif value < 0 then
+        local value = get_link_state_value(n)
+        if value < 0 then
           linkstate = -value
         else
           linkstacks.linkstate, linkstate = value, nil
@@ -194,21 +206,9 @@ luatexbase.add_to_callback('pre_shipout_filter', function(head)
   return true
 end, 'linksplit')
 
-local pdflinkstate_func = luatexbase.new_luafunction'pdflinkstate'
-token.set_lua('pdflinkstate', pdflinkstate_func, 'protected')
-lua.get_functions_table()[pdflinkstate_func] = function()
-  local value = token.scan_int()
-  local n = node_new(whatsit, pdf_link_state)
-  n.value = value
-  local props = properties[n] or {}
-  properties[n] = props
-  props.value = value
-  node.write(n)
-end
-
-local pdflinkstate_func = luatexbase.new_luafunction'pdflinkadjustlevel'
-token.set_lua('pdflinkadjustlevel', pdflinkstate_func, 'protected')
-lua.get_functions_table()[pdflinkstate_func] = function()
+local pdflinkadjustlevel_func = luatexbase.new_luafunction'pdflinkadjustlevel'
+token.set_lua('pdflinkadjustlevel', pdflinkadjustlevel_func, 'protected')
+lua.get_functions_table()[pdflinkadjustlevel_func] = function()
   local mode = tex.nest.top.mode
   if mode ~= vmode and -mode ~= vmode then
     tex.error("\\pdflinkadjustlevel is only allowed in vmode")

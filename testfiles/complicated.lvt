@@ -5,7 +5,7 @@
 \usepackage{lualinksplit}
 \usepackage{hyperref,lipsum}
 \NewSocketPlug{build/column/footnotes}{lualinksplit}{%
-  \setbox\footins=\vbox{\pdflinkstate-2\unvbox\footins}%
+  \setbox\footins=\vbox{\pdfextension linkstate-2\unvbox\footins}%
 }
 \AssignSocketPlug{build/column/footnotes}{lualinksplit}
 \begin{document}
